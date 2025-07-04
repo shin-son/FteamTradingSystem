@@ -9,7 +9,6 @@
 using namespace testing;
 using namespace std;
 
-
 class stockBrockerFixture : public Test {
 public:
 
