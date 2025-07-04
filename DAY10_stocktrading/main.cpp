@@ -26,6 +26,7 @@ TEST(stockBrocker, ReturnKiwoomOrNemo) {
 TEST(stockBrocker, LoginSuccess) {
     AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string id = "myid";
     string pass = "mypass";
@@ -34,12 +35,13 @@ TEST(stockBrocker, LoginSuccess) {
     EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(true));
 
-    //ATS.login(id, pass);
+    EXPECT_EQ(ATS.login(id, pass), true);
 }
 
 TEST(stockBrocker, LoginFailure) {
     AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string id = "wrongid";
     string pass = "wrongpass";
@@ -48,7 +50,7 @@ TEST(stockBrocker, LoginFailure) {
     EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(false));
 
-    //ATS.login(id, pass);
+    EXPECT_EQ(ATS.login(id, pass), false);
 }
 
 TEST(stockBrocker, BuySuccess) {
@@ -85,24 +87,26 @@ TEST(stockBrocker, BuyFailure) {
 
 TEST(stockBrocker, SellSuccess) {
     AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+    NiceMock<MockStockBrokerDriver> mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 예: 삼성전자
     int price = 71000;
     int quantity = 5;
 
     // 지정된 인자에 대해 true 리턴 설정
-    EXPECT_CALL(mock, sell(code, price, quantity)).Times(1)
+    EXPECT_CALL(mock, sell(code, price, quantity))
         .WillOnce(Return(true));
-    
-    //ATS.sell(code, price, quantity);
+
+    EXPECT_TRUE(ATS.sell(code, price, quantity));
 }
 
 TEST(stockBrocker, SellFailure) {
     AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+    NiceMock<MockStockBrokerDriver> mock;
+    ATS.selectStockBrocker(&mock);
 
-    string wrong_code = "999999";  // 잘못된 종목
+    string wrong_code = "00000";  // 잘못된 종목
     int price = 30000;
     int quantity = 100;
 
@@ -110,7 +114,7 @@ TEST(stockBrocker, SellFailure) {
     EXPECT_CALL(mock, sell(wrong_code, price, quantity))
         .WillOnce(Return(false));
 
-    //ATS.sell(code, price, quantity);
+    EXPECT_FALSE(ATS.sell(wrong_code, price, quantity));
 }
 
 TEST(stockBrocker, GetPriceReturnsCorrectValue) {
