@@ -33,3 +33,9 @@ bool AutoTradingSystem::isInvalidIDorPASS(const std::string& id, const std::stri
 	return id == "" || pass == "";
 }
 
+int AutoTradingSystem::getPrice(const std::string& stockCode)
+{
+	if (stockCode == "") return WRONG_PRICE;
+	return broker->getPrice(stockCode);
+
+
