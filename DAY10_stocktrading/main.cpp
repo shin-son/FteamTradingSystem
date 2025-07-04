@@ -123,6 +123,7 @@ TEST_F(stockBrockerFixture, GetPriceReturnsZeroForInvalidCode) {
 }
 
 TEST_F(stockBrockerFixture, BuyNiceTimingShoudBuyWhenPriceIsRising) {
+
     EXPECT_CALL(mock, getPrice(validCode)).Times(3)
         .WillOnce(Return(68000))
         .WillOnce(Return(69000))
@@ -154,7 +155,6 @@ TEST_F(stockBrockerFixture, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
         .WillOnce(Return(168000));
 
     EXPECT_CALL(mock, buy(_, _, _)).Times(0);
-
     EXPECT_EQ(false, ATS.buyNiceTiming(validCode, remainCash));
 }
 
