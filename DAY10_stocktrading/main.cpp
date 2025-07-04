@@ -238,6 +238,63 @@ TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
     //ATS.buyNiceTiming(code, cash);
 }
 
+TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int quantity = 5;
+    int last_price = 70000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(72000))
+        .WillOnce(Return(71000))
+        .WillOnce(Return(70000));
+
+    EXPECT_CALL(mock, sell(code, last_price, 5)).Times(1);
+
+    //ATS.SellNiceTiming(code, last_price, quantity);
+}
+
+TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int quantity = 5;
+    int last_price = 70000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(70000))
+        .WillOnce(Return(71000))
+        .WillOnce(Return(72000));
+
+    EXPECT_CALL(mock, sell(code, last_price, 5)).Times(0);
+
+    //ATS.SellNiceTiming(code, last_price, quantity);
+}
+
+TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int quantity = 5;
+    int last_price = 70000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(70000))
+        .WillOnce(Return(-1))
+        .WillOnce(Return(72000));
+
+    EXPECT_CALL(mock, sell(code, last_price, 5)).Times(0);
+
+    //ATS.SellNiceTiming(code, last_price, quantity);
+}
+
 int main() {
     ::testing::InitGoogleMock();
     return RUN_ALL_TESTS();
