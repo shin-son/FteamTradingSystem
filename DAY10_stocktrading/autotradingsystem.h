@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 #include "stock_broker_driver_interface.h"
+#include "stock_brocker_factory.h"
 
 using std::string;
 
@@ -10,5 +10,5 @@ public:
 	void selectStockBrocker(string brokerName);
 
 private:
-	StockBrokerDriverInterface* broker;
+	std::unique_ptr<StockBrokerDriverInterface> brockerDriver;
 };

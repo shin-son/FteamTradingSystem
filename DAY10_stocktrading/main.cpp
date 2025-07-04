@@ -8,21 +8,44 @@
 
 using namespace testing;
 using namespace std;
-/*
-TEST(stockBrocker, ReturnKiwoomOrNemo) {
-    MockStockBrokerDriver mock;
 
-    // 테스트할 리턴값 설정
-    EXPECT_CALL(mock, selectStockBrocker())
-        .WillOnce(Return("키움"));
+TEST(stockBrocker, SelectKiwerBrocker) {
+    AutoTradingSystem autoTradingSystem;
 
-    string broker = mock.selectStockBrocker();
-
-    vector<string> validBrockers = { "키움", "네모" };
-
-    EXPECT_THAT(validBrockers, Contains(broker));
+    try {
+        autoTradingSystem.selectStockBrocker("키워");
+    }
+    catch (std::exception& e)
+    {
+        FAIL();
+    }
 }
-*/
+
+TEST(stockBrocker, SelectNemoBrocker) {
+    AutoTradingSystem autoTradingSystem;
+
+    try {
+        autoTradingSystem.selectStockBrocker("네모");
+    }
+    catch (std::exception& e)
+    {
+        FAIL();
+    }
+}
+
+TEST(stockBrocker, SelectInvalidBrocker) {
+    AutoTradingSystem autoTradingSystem;
+
+    try {
+        autoTradingSystem.selectStockBrocker("과거");
+        FAIL();
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
 TEST(stockBrocker, LoginSuccess) {
     MockStockBrokerDriver mock;
 
