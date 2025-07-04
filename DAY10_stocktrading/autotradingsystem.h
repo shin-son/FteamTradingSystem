@@ -9,6 +9,7 @@ class AutoTradingSystem
 public:
 	void selectStockBrocker(StockBrokerDriverInterface* new_broker);
 	bool buy(std::string stockCode, int count, int price);
+    bool sell(std::string stockCode, int count, int price);
 
 private:
 	StockBrokerDriverInterface* broker;

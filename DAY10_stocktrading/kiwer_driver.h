@@ -17,11 +17,6 @@ class KiwerDriver : public StockBrokerDriverInterface {
 
   bool sell(const std::string& code, int price, int quantity) override
   {
-    if (code.empty() || code == "999999") return false;
-    if (price < 1) return false;
-    if (quantity < 1) return false;
-    kiwerapi.sell(code, quantity, price);
-    return true;
       return false;
   }
 

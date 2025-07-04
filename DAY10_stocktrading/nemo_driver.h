@@ -17,10 +17,6 @@ public:
 
     bool sell(const std::string& code, int price, int quantity) override
     {
-        if (code.empty() || code == "999999") return false;
-        if (price < 1) return false;
-        if (quantity < 1) return false;
-        nemoapi.sellingStock(code, price, quantity);
         return true;
     }
 
