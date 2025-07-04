@@ -8,7 +8,7 @@
 
 using namespace testing;
 using namespace std;
-
+/*
 TEST(stockBrocker, ReturnKiwoomOrNemo) {
     MockStockBrokerDriver mock;
 
@@ -22,7 +22,7 @@ TEST(stockBrocker, ReturnKiwoomOrNemo) {
 
     EXPECT_THAT(validBrockers, Contains(broker));
 }
-
+*/
 TEST(stockBrocker, LoginSuccess) {
     MockStockBrokerDriver mock;
 

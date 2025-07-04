@@ -4,12 +4,6 @@
 
 class NemoDriver : public StockBrokerDriverInterface {
 public:
-    // StockBrokerDriverInterface을(를) 통해 상속됨
-    std::string selectStockBrocker() const override
-    {
-        return "네모";
-    }
-
     bool login(const std::string& id, const std::string& pass) override
     {
         nemoapi.certification(id, pass);

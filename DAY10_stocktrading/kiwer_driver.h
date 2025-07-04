@@ -4,12 +4,6 @@
 
 class KiwerDriver : public StockBrokerDriverInterface {
 public:
-    // StockBrokerDriverInterface을(를) 통해 상속됨
-    std::string selectStockBrocker() const override
-    {
-        return "키움";
-    }
-
     bool login(const std::string& id, const std::string& pass) override
     {
         kiwerapi.login(id, pass);
