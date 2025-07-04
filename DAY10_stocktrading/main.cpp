@@ -51,31 +51,35 @@ TEST(stockBrocker, LoginFailure) {
 }
 
 TEST(stockBrocker, BuySuccess) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 삼성전자
     int price = 70000;
     int quantity = 10;
 
     // 이 매개변수 조합에 대해 true를 반환
-    EXPECT_CALL(mock, buy(code, price, quantity))
+    EXPECT_CALL(mock, buy(code, price, quantity)).Times(1)
         .WillOnce(Return(true));
 
-    EXPECT_TRUE(mock.buy(code, price, quantity));
+    ATS.buy(code, price, quantity);
 }
 
 TEST(stockBrocker, BuyFailure) {
-    MockStockBrokerDriver mock;
+    AutoTradingSystem ATS;
+    NiceMock<MockStockBrokerDriver> mock;
+    ATS.selectStockBrocker(&mock);
 
-    string code = "000000";  // 잘못된 종목 코드
-    int price = 100000;
-    int quantity = 100;
+    string wrong_code = "000000";  // 잘못된 종목 코드
+    int price = 70000;
+    int quantity = 10;
 
-    // 실패하도록 설정
-    EXPECT_CALL(mock, buy(code, price, quantity))
+    // 이 매개변수 조합에 대해 true를 반환
+    EXPECT_CALL(mock, buy(wrong_code, price, quantity)).Times(1)
         .WillOnce(Return(false));
 
-    EXPECT_FALSE(mock.buy(code, price, quantity));
+    ATS.buy(wrong_code, price, quantity);
 }
 
 TEST(stockBrocker, SellSuccess) {
