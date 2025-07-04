@@ -1,4 +1,6 @@
 #include "gmock/gmock.h"
+#include "autotradingsystem.h"
+
 #include <string>
 
 using namespace testing;
