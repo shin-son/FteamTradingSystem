@@ -123,6 +123,31 @@ TEST(stockBrocker, SellFailure) {
     EXPECT_FALSE(mock.sell(code, price, quantity));
 }
 
+TEST(stockBrocker, GetPriceReturnsCorrectValue) {
+    MockStockBrokerDriver mock;
+
+    string code = "005930";  // 예: 삼성전자
+    int expectedPrice = 71500;
+
+    // mock이 해당 종목 코드에 대해 expectedPrice를 반환하도록 설정
+    EXPECT_CALL(mock, getPrice(code))
+        .WillOnce(Return(expectedPrice));
+
+    EXPECT_EQ(mock.getPrice(code), expectedPrice);
+}
+
+TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
+    MockStockBrokerDriver mock;
+
+    string code = "999999";  // 잘못된 종목
+
+    // 잘못된 코드에 대해서는 -1 반환하도록 설정
+    EXPECT_CALL(mock, getPrice(code))
+        .WillOnce(Return(-1));
+
+    EXPECT_EQ(mock.getPrice(code), -1);
+}
+
 int main() {
     ::testing::InitGoogleMock();
     return RUN_ALL_TESTS();
