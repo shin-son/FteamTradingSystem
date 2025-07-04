@@ -24,5 +24,5 @@ private:
 
 	bool isInvalidIDorPASS(const std::string& id, const std::string& pass);
 	bool isNiceBuyTiming(const std::string& stockCode);
-	bool isNiceSellTiming(std::vector<int> prices, const std::string stockCode);
+	int isNiceSellTiming(std::vector<int> prices, const std::string stockCode);
 };

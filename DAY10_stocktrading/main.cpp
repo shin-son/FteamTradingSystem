@@ -198,7 +198,7 @@ TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
 
     EXPECT_CALL(mock, buy(code, 300000, _)).Times(1)
         .WillOnce(Return(true));
-    
+
     EXPECT_EQ(true, ATS.buyNiceTiming(code, cash));
 }
 
