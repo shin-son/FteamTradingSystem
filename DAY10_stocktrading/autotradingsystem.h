@@ -10,8 +10,13 @@ public:
 	void selectStockBrocker(const string& brockerName);
 	void selectStockBrocker(StockBrokerDriverInterface* new_broker);
 	bool buy(std::string stockCode, int count, int price);
+    bool sell(std::string stockCode, int count, int price);
+	bool login(const std::string& id, const std::string& pass);
+	int getPrice(const string& stockCode);
 
 private:
-	//std::unique_ptr<StockBrokerDriverInterface> brockerDriver;
+	static const int WRONG_PRICE = -1;
 	StockBrokerDriverInterface* brockerDriver;
+
+	bool isInvalidIDorPASS(const std::string& id, const std::string& pass);
 };

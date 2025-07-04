@@ -47,30 +47,33 @@ TEST(stockBrocker, SelectInvalidBrocker) {
 }
 
 TEST(stockBrocker, LoginSuccess) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string id = "myid";
     string pass = "mypass";
 
     // login 함수가 특정 인자에 대해 true를 반환하도록 설정
-    EXPECT_CALL(mock, login(id, pass))
+    EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(true));
 
-    // 실제 호출 및 검증
-    EXPECT_TRUE(mock.login(id, pass));
+    EXPECT_EQ(ATS.login(id, pass), true);
 }
 
 TEST(stockBrocker, LoginFailure) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string id = "wrongid";
     string pass = "wrongpass";
 
     // 잘못된 아이디/비번으로 로그인 실패 리턴
-    EXPECT_CALL(mock, login(id, pass))
+    EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(false));
 
-    EXPECT_FALSE(mock.login(id, pass));
+    EXPECT_EQ(ATS.login(id, pass), false);
 }
 
 TEST(stockBrocker, BuySuccess) {
@@ -106,7 +109,9 @@ TEST(stockBrocker, BuyFailure) {
 }
 
 TEST(stockBrocker, SellSuccess) {
-    MockStockBrokerDriver mock;
+    AutoTradingSystem ATS;
+    NiceMock<MockStockBrokerDriver> mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 예: 삼성전자
     int price = 71000;
@@ -116,46 +121,58 @@ TEST(stockBrocker, SellSuccess) {
     EXPECT_CALL(mock, sell(code, price, quantity))
         .WillOnce(Return(true));
 
-    EXPECT_TRUE(mock.sell(code, price, quantity));
+    EXPECT_TRUE(ATS.sell(code, price, quantity));
 }
 
 TEST(stockBrocker, SellFailure) {
-    MockStockBrokerDriver mock;
+    AutoTradingSystem ATS;
+    NiceMock<MockStockBrokerDriver> mock;
+    ATS.selectStockBrocker(&mock);
 
-    string code = "999999";  // 잘못된 종목
+    string wrong_code = "00000";  // 잘못된 종목
     int price = 30000;
     int quantity = 100;
 
     // 실패 조건에 대해 false 반환 설정
-    EXPECT_CALL(mock, sell(code, price, quantity))
+    EXPECT_CALL(mock, sell(wrong_code, price, quantity))
         .WillOnce(Return(false));
 
-    EXPECT_FALSE(mock.sell(code, price, quantity));
+    EXPECT_FALSE(ATS.sell(wrong_code, price, quantity));
 }
 
 TEST(stockBrocker, GetPriceReturnsCorrectValue) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 예: 삼성전자
     int expectedPrice = 71500;
 
     // mock이 해당 종목 코드에 대해 expectedPrice를 반환하도록 설정
     EXPECT_CALL(mock, getPrice(code))
+        .Times(1)
         .WillOnce(Return(expectedPrice));
 
-    EXPECT_EQ(mock.getPrice(code), expectedPrice);
+    int ret = ATS.getPrice(code);
+
+	EXPECT_EQ(ret, expectedPrice);
 }
 
 TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "999999";  // 잘못된 종목
 
     // 잘못된 코드에 대해서는 -1 반환하도록 설정
     EXPECT_CALL(mock, getPrice(code))
+        .Times(1)
         .WillOnce(Return(-1));
 
-    EXPECT_EQ(mock.getPrice(code), -1);
+    int ret = ATS.getPrice(code);
+    
+	EXPECT_EQ(ret, -1);
 }
 
 int main() {
