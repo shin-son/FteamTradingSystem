@@ -50,6 +50,35 @@ TEST(stockBrocker, LoginFailure) {
     EXPECT_FALSE(mock.login(id, pass));
 }
 
+TEST(stockBrocker, BuySuccess) {
+    MockStockBrokerDriver mock;
+
+    string code = "005930";  // 삼성전자
+    int price = 70000;
+    int quantity = 10;
+
+    // 이 매개변수 조합에 대해 true를 반환
+    EXPECT_CALL(mock, buy(code, price, quantity))
+        .WillOnce(Return(true));
+
+    EXPECT_TRUE(mock.buy(code, price, quantity));
+}
+
+TEST(stockBrocker, BuyFailure) {
+    MockStockBrokerDriver mock;
+
+    string code = "000000";  // 잘못된 종목 코드
+    int price = 100000;
+    int quantity = 100;
+
+    // 실패하도록 설정
+    EXPECT_CALL(mock, buy(code, price, quantity))
+        .WillOnce(Return(false));
+
+    EXPECT_FALSE(mock.buy(code, price, quantity));
+}
+
+
 int main() {
     ::testing::InitGoogleMock();
     return RUN_ALL_TESTS();
