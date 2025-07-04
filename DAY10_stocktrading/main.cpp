@@ -221,8 +221,14 @@ TEST_F(stockBrockerFixture, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
     EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
 }
 
+<<<<<<< HEAD
 TEST_F(stockBrockerFixture, SellNiceTimingShoudSellWhenPriceIsFalling) {
 
+=======
+TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+>>>>>>> 8a56e26 ([feature] Red: Add the SellNiceTiming Operation)
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -236,11 +242,20 @@ TEST_F(stockBrockerFixture, SellNiceTimingShoudSellWhenPriceIsFalling) {
 
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(1);
 
+<<<<<<< HEAD
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
 TEST_F(stockBrockerFixture, SellNiceTimingShoudNotSellWhenPriceIsRising) {
 
+=======
+    //ATS.SellNiceTiming(code, last_price, quantity);
+}
+
+TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+>>>>>>> 8a56e26 ([feature] Red: Add the SellNiceTiming Operation)
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -254,11 +269,20 @@ TEST_F(stockBrockerFixture, SellNiceTimingShoudNotSellWhenPriceIsRising) {
 
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(0);
 
+<<<<<<< HEAD
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
 TEST_F(stockBrockerFixture, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
 
+=======
+    //ATS.SellNiceTiming(code, last_price, quantity);
+}
+
+TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+>>>>>>> 8a56e26 ([feature] Red: Add the SellNiceTiming Operation)
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -272,7 +296,11 @@ TEST_F(stockBrockerFixture, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
 
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(0);
 
+<<<<<<< HEAD
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
+=======
+    //ATS.SellNiceTiming(code, last_price, quantity);
+>>>>>>> 8a56e26 ([feature] Red: Add the SellNiceTiming Operation)
 }
 
 int main() {
