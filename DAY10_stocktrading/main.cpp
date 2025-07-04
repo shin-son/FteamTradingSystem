@@ -1,32 +1,28 @@
 ﻿#include "gmock/gmock.h"
 #include "autotradingsystem.h"
+#include "stock_broker_driver_interface.h"
+#include "mock_driver.h"
 
 #include <string>
 #include <vector>
 
 using namespace testing;
 using namespace std;
+/*
+TEST(stockBrocker, ReturnKiwoomOrNemo) {
+    MockStockBrokerDriver mock;
 
-// Mock 클래스 정의
-class MockStockBrokerDriver : public StockBrokerDriverInterface {
-public:
-    MOCK_METHOD(bool, login, (const string& id, const string& pass), (override));
-    MOCK_METHOD(bool, buy, (const string& code, int price, int quantity), (override));
-    MOCK_METHOD(bool, sell, (const string& code, int price, int quantity), (override));
-    MOCK_METHOD(int, getPrice, (const string& code), (override));
-};
+    // 테스트할 리턴값 설정
+    EXPECT_CALL(mock, selectStockBrocker())
+        .WillOnce(Return("키움"));
 
-//TEST(stockBrocker, ReturnKiwoomOrNemo) {
-//    AutoTradingSystem autotradingSystem;
-//
-//    // 테스트할 리턴값 설정
-//    string autotradingSystem.selectStockBrocker("키움");
-//
-//    vector<string> validBrockers = { "키움", "네모" };
-//
-//    EXPECT_THAT(validBrockers, Contains(broker));
-//}
+    string broker = mock.selectStockBrocker();
 
+    vector<string> validBrockers = { "키움", "네모" };
+
+    EXPECT_THAT(validBrockers, Contains(broker));
+}
+*/
 TEST(stockBrocker, LoginSuccess) {
     MockStockBrokerDriver mock;
 

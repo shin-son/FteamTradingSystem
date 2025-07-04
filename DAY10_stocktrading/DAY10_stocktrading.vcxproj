@@ -124,7 +124,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Kiwer_api.cpp" />
-    <ClCompile Include="Kiwer_driver.cpp" />
     <ClCompile Include="main.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -135,9 +134,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="autotradingsystem.h" />
-    <ClInclude Include="gmock_driver.h" />
     <ClInclude Include="kiwer_driver.h" />
-    <ClInclude Include="StockBrokerDriverInterface.h" />
+    <ClInclude Include="mock_driver.h" />
+    <ClInclude Include="nemo_driver.h" />
+    <ClInclude Include="stock_broker_driver_interface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

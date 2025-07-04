@@ -1,24 +1,33 @@
 #pragma once
-#include <string>
-
-#include "StockBrokerDriverInterface.h"
+#include "stock_broker_driver_interface.h"
 #include "nemo_api.cpp"
 
-using std::string;
-
 class NemoDriver : public StockBrokerDriverInterface {
- public:
-  NemoDriver(NemoAPI* api);
+public:
+    bool login(const std::string& id, const std::string& pass) override
+    {
+        nemoapi.certification(id, pass);
+        return true;
+    }
 
-  bool login(const string& id, const string& pw) override;
-  bool buy(const string& code, int price, int qty) override {
-    if (string(code).empty() || code == "999999") return false;
-    api_->sellingStock(code, price, qty);
-    return true;
-  };
-  bool sell(const string& code, int price, int qty) override;
-  int getPrice(const string& code) override;
+    bool buy(const std::string& code, int price, int quantity) override
+    {
+        return false;
+    }
 
- private:
-  NemoAPI* api_;
+    bool sell(const std::string& code, int price, int quantity) override
+    {
+        if (code.empty() || code == "999999") return false;
+        if (price < 1) return false;
+        if (quantity < 1) return false;
+        nemoapi.sellingStock(code, price, quantity);
+        return true;
+    }
+
+    int getPrice(const std::string& code) override
+    {
+        return 0;
+    }
+private:
+    NemoAPI nemoapi{ NemoAPI() };
 };
