@@ -97,7 +97,7 @@ TEST(stockBrocker, BuySuccess) {
     EXPECT_CALL(mock, buy(code, price, quantity)).Times(1)
         .WillOnce(Return(true));
 
-    ATS.buy(code, price, quantity);
+    EXPECT_EQ(true, ATS.buy(code, price, quantity));
 }
 
 TEST(stockBrocker, BuyFailure) {
@@ -113,7 +113,7 @@ TEST(stockBrocker, BuyFailure) {
     EXPECT_CALL(mock, buy(wrong_code, price, quantity)).Times(1)
         .WillOnce(Return(false));
 
-    ATS.buy(wrong_code, price, quantity);
+    EXPECT_EQ(false, ATS.buy(wrong_code, price, quantity));
 }
 
 TEST(stockBrocker, SellSuccess) {
@@ -196,10 +196,10 @@ TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
         .WillOnce(Return(69000))
         .WillOnce(Return(70000));
 
-    EXPECT_CALL(mock, buy(code, 70000, 4)).Times(1)
+    EXPECT_CALL(mock, buy(code, 300000, _)).Times(1)
         .WillOnce(Return(true));
     
-    //ATS.buyNiceTiming(code, cash);
+    EXPECT_EQ(true, ATS.buyNiceTiming(code, cash));
 }
 
 TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
@@ -217,7 +217,7 @@ TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
 
     EXPECT_CALL(mock, buy(_, _, _)).Times(0);
 
-    //ATS.buyNiceTiming(code, cash);
+    EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
 }
 
 TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
@@ -235,7 +235,7 @@ TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
 
     EXPECT_CALL(mock, buy(_, _, _)).Times(0);
 
-    //ATS.buyNiceTiming(code, cash);
+    EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
 }
 
 TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
