@@ -1,9 +1,14 @@
 #pragma once
+#include <string>
 #include "StockBrokerDriverInterface.h"
 
-class AutoTradingSystem {
- public:
- private:
-  StockBrokerDriverInterface* broker;
+using std::string;
+
+class AutoTradingSystem
+{
+public:
+	void selectStockBrocker(string brokerName);
+
+private:
+	StockBrokerDriverInterface* broker;
 };
-#pragma once

@@ -135,7 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="autotradingsystem.h" />
-    <ClInclude Include="Kiwer_driver.h" />
+    <ClInclude Include="gmock_driver.h" />
+    <ClInclude Include="kiwer_driver.h" />
+    <ClInclude Include="StockBrokerDriverInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
