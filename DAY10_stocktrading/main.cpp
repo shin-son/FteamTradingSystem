@@ -24,7 +24,9 @@ TEST(stockBrocker, ReturnKiwoomOrNemo) {
 }
 */
 TEST(stockBrocker, LoginSuccess) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string id = "myid";
     string pass = "mypass";
@@ -33,12 +35,13 @@ TEST(stockBrocker, LoginSuccess) {
     EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(true));
 
-    //ATS.login(id, pass);
+    EXPECT_EQ(ATS.login(id, pass), true);
 }
 
 TEST(stockBrocker, LoginFailure) {
     AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string id = "wrongid";
     string pass = "wrongpass";
@@ -47,7 +50,7 @@ TEST(stockBrocker, LoginFailure) {
     EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(false));
 
-    //ATS.login(id, pass);
+    EXPECT_EQ(ATS.login(id, pass), false);
 }
 
 TEST(stockBrocker, BuySuccess) {
