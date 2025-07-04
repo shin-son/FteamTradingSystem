@@ -9,6 +9,14 @@
 using namespace testing;
 using namespace std;
 
+class stockBrockerFixture : public Test {
+public:
+
+private:
+
+
+};
+
 TEST(stockBrocker, SelectKiwerBrocker) {
     AutoTradingSystem autoTradingSystem;
 
@@ -89,7 +97,7 @@ TEST(stockBrocker, BuySuccess) {
     EXPECT_CALL(mock, buy(code, price, quantity)).Times(1)
         .WillOnce(Return(true));
 
-    ATS.buy(code, price, quantity);
+    EXPECT_EQ(true, ATS.buy(code, price, quantity));
 }
 
 TEST(stockBrocker, BuyFailure) {
@@ -105,7 +113,7 @@ TEST(stockBrocker, BuyFailure) {
     EXPECT_CALL(mock, buy(wrong_code, price, quantity)).Times(1)
         .WillOnce(Return(false));
 
-    ATS.buy(wrong_code, price, quantity);
+    EXPECT_EQ(false, ATS.buy(wrong_code, price, quantity));
 }
 
 TEST(stockBrocker, SellSuccess) {
@@ -173,6 +181,61 @@ TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
     int ret = ATS.getPrice(code);
     
 	EXPECT_EQ(ret, -1);
+}
+
+TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 300000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(70000));
+
+    EXPECT_CALL(mock, buy(code, 300000, _)).Times(1)
+        .WillOnce(Return(true));
+    
+    EXPECT_EQ(true, ATS.buyNiceTiming(code, cash));
+}
+
+TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 300000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(68000));
+
+    EXPECT_CALL(mock, buy(_, _, _)).Times(0);
+
+    EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
+}
+
+TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 260000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(68000));
+
+    EXPECT_CALL(mock, buy(_, _, _)).Times(0);
+
+    EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
 }
 
 int main() {
