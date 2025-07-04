@@ -24,6 +24,7 @@ TEST(stockBrocker, ReturnKiwoomOrNemo) {
 }
 */
 TEST(stockBrocker, LoginSuccess) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
 
     string id = "myid";
@@ -113,28 +114,30 @@ TEST(stockBrocker, SellFailure) {
 }
 
 TEST(stockBrocker, GetPriceReturnsCorrectValue) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
 
     string code = "005930";  // 예: 삼성전자
     int expectedPrice = 71500;
 
     // mock이 해당 종목 코드에 대해 expectedPrice를 반환하도록 설정
-    EXPECT_CALL(mock, getPrice(code))
+    EXPECT_CALL(mock, getPrice(code)).Times(1)
         .WillOnce(Return(expectedPrice));
 
-    EXPECT_EQ(mock.getPrice(code), expectedPrice);
+    //ATS.getPrice(code);
 }
 
 TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
 
     string code = "999999";  // 잘못된 종목
 
     // 잘못된 코드에 대해서는 -1 반환하도록 설정
-    EXPECT_CALL(mock, getPrice(code))
+    EXPECT_CALL(mock, getPrice(code)).Times(1)
         .WillOnce(Return(-1));
 
-    EXPECT_EQ(mock.getPrice(code), -1);
+    //ATS.getPrice(code);
 }
 
 int main() {
