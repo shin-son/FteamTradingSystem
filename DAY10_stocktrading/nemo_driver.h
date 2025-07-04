@@ -4,26 +4,12 @@
 
 class NemoDriver : public StockBrokerDriverInterface {
 public:
-    bool login(const std::string& id, const std::string& pass) override
-    {
-        nemoapi.certification(id, pass);
-        return true;
-    }
+	bool login(const std::string& id, const std::string& pass) override;
+	bool buy(const std::string& code, int price, int quantity) override;
+	bool sell(const std::string& code, int price, int quantity) override;
+	int getPrice(const std::string& code) override;
 
-    bool buy(const std::string& code, int price, int quantity) override
-    {
-        return false;
-    }
-
-    bool sell(const std::string& code, int price, int quantity) override
-    {
-        return false;
-    }
-
-    int getPrice(const std::string& code) override
-    {
-        return 0;
-    }
+	static const int MIN_GET_PRICE_TIME_IN_MS = 1;
 private:
-    NemoAPI nemoapi{ NemoAPI() };
+	NemoAPI nemoapi{ NemoAPI() };
 };

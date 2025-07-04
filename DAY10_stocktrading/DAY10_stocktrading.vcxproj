@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="autotradingsystem.cpp" />
+    <ClCompile Include="KiwerDriver.cpp" />
     <ClCompile Include="Kiwer_api.cpp" />
     <ClCompile Include="main.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
@@ -132,6 +133,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="nemo_api.cpp" />
+    <ClCompile Include="nemo_driver.cpp" />
     <ClCompile Include="stock_brocker_factory.cpp" />
   </ItemGroup>
   <ItemGroup>

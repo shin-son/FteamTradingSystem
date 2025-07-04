@@ -4,26 +4,11 @@
 
 class KiwerDriver : public StockBrokerDriverInterface {
 public:
-    bool login(const std::string& id, const std::string& pass) override
-    {
-        kiwerapi.login(id, pass);
-        return true;
-    }
+    bool login(const std::string& id, const std::string& pass) override;
+    bool buy(const std::string& code, int price, int quantity) override;
+    bool sell(const std::string& code, int price, int quantity) override;
+    int getPrice(const std::string& code) override;
 
-    bool buy(const std::string& code, int price, int quantity) override
-    {
-        return false;
-    }
-
-    bool sell(const std::string& code, int price, int quantity) override
-    {
-        return false;
-    }
-
-    int getPrice(const std::string& code) override
-    {
-        return 0;
-    }
 private:
     KiwerAPI kiwerapi{ KiwerAPI() };
 };
