@@ -1,22 +1,26 @@
-#ifndef KIWER_DRIVER_H
-#define KIWER_DRIVER_H
-
+#pragma once
 #include "kiwer_api.cpp"
-#include "stocker_interface.h"
+#include "StockBrokerDriverInterface.h"
+#include <string>
 
-class KiwerDriver : public StockerBrokerDriverInterface {
+using std::string;
+
+class KiwerDriver : public StockBrokerDriverInterface {
  public:
-  explicit KiwerDriver(KiwerAPI* api);
-  ~KiwerDriver();
+   KiwerDriver(KiwerAPI* api);
 
   bool login(const string& id, const string& pw) override;
   bool buy(const string& code, int price, int qty) override;
-  bool sell(const string& code, int price, int qty) override;
+  bool sell(const string& code, int price, int qty) override {
+    // TODO:: Need to define the wrong stock code
+    if (string(code).empty() || string(code) == "999999") return false;
+    // TODO:: price ? qty? exception ?
+    api_->sell(code, qty, price);
+    return true;
+  };
   int getPrice(const string& code) override;
-  string selectStockBrocker() const override;
-  string getBrokerName() const override;
 
  private:
   KiwerAPI* api_;
 };
-#pragma once
+
