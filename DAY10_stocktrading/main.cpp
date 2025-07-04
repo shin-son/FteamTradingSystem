@@ -24,6 +24,7 @@ TEST(stockBrocker, ReturnKiwoomOrNemo) {
 }
 */
 TEST(stockBrocker, LoginSuccess) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
 
     string id = "myid";
