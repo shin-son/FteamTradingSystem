@@ -8,6 +8,15 @@
 
 using namespace testing;
 using namespace std;
+
+class stockBrockerFixture : public Test {
+public:
+
+private:
+
+
+};
+
 /*
 TEST(stockBrocker, ReturnKiwoomOrNemo) {
     MockStockBrokerDriver mock;
@@ -143,6 +152,46 @@ TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
 
     //ATS.getPrice(code);
 }
+
+TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 300000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(70000));
+
+    EXPECT_CALL(mock, buy(code, 70000, 4))
+        .WillOnce(Return(true));
+
+    //ATS.buyNiceTiming(code, cash);
+}
+
+TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 300000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(68000));
+
+    EXPECT_CALL(mock, buy(_, _, _))
+        .WillOnce(Return(false));
+
+    //ATS.buyNiceTiming(code, cash);
+}
+
+
 
 int main() {
     ::testing::InitGoogleMock();
