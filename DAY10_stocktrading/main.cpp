@@ -300,7 +300,10 @@ TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 =======
     //ATS.SellNiceTiming(code, last_price, quantity);
+<<<<<<< HEAD
 >>>>>>> 8a56e26 ([feature] Red: Add the SellNiceTiming Operation)
+=======
+>>>>>>> 3131380 ([fix] main: Remove redundant Test cases)
 }
 
 int main() {
