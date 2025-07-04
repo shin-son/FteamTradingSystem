@@ -255,6 +255,7 @@ TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(1);
 
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
+
 }
 
 TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
