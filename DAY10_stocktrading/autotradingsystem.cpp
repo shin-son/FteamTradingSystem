@@ -16,6 +16,11 @@ bool AutoTradingSystem::buy(std::string stockCode, int count, int price)
 
 bool AutoTradingSystem::login(const std::string& id, const std::string& pass)
 {
-	if (id == "" || pass == "") return false;
+	if (isInvalidIDorPASS(id, pass)) return false;
 	return broker->login(id, pass);
+}
+
+bool AutoTradingSystem::isInvalidIDorPASS(const std::string& id, const std::string& pass)
+{
+	return id == "" || pass == "";
 }

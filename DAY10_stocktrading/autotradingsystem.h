@@ -13,4 +13,6 @@ public:
 
 private:
 	StockBrokerDriverInterface* broker;
+
+	bool isInvalidIDorPASS(const std::string& id, const std::string& pass);
 };
