@@ -174,12 +174,9 @@ TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
         .WillOnce(Return(69000))
         .WillOnce(Return(70000));
 
-    EXPECT_CALL(mock, buy(code, 70000, 4))
+    EXPECT_CALL(mock, buy(code, 70000, 4)).Times(1)
         .WillOnce(Return(true));
     
-    //ATS.getPrice(code);
-    //ATS.getPrice(code);
-    //ATS.getPrice(code);
     //ATS.buyNiceTiming(code, cash);
 }
 
@@ -196,12 +193,8 @@ TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
         .WillOnce(Return(69000))
         .WillOnce(Return(68000));
 
-    EXPECT_CALL(mock, buy(_, _, _))
-        .WillOnce(Return(false));
+    EXPECT_CALL(mock, buy(_, _, _)).Times(0);
 
-    //ATS.getPrice(code);
-    //ATS.getPrice(code);
-    //ATS.getPrice(code);
     //ATS.buyNiceTiming(code, cash);
 }
 
@@ -218,16 +211,10 @@ TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
         .WillOnce(Return(69000))
         .WillOnce(Return(68000));
 
-    EXPECT_CALL(mock, buy(_, _, _)).Times(0)
-        .WillOnce(Return(false));
+    EXPECT_CALL(mock, buy(_, _, _)).Times(0);
 
-    //ATS.getPrice(code);
-    //ATS.getPrice(code);
-    //ATS.getPrice(code);
     //ATS.buyNiceTiming(code, cash);
 }
-
-
 
 int main() {
     ::testing::InitGoogleMock();

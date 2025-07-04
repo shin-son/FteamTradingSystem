@@ -37,5 +37,6 @@ int AutoTradingSystem::getPrice(const std::string& stockCode)
 {
 	if (stockCode == "") return WRONG_PRICE;
 	return broker->getPrice(stockCode);
+}
 
 
