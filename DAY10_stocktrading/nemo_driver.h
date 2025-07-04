@@ -17,7 +17,7 @@ public:
 
     bool sell(const std::string& code, int price, int quantity) override
     {
-        return true;
+        return false;
     }
 
     int getPrice(const std::string& code) override
