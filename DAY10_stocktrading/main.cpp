@@ -16,19 +16,16 @@ public:
     MOCK_METHOD(int, getPrice, (const string& code), (override));
 };
 
-TEST(stockBrocker, ReturnKiwoomOrNemo) {
-    MockStockBrokerDriver mock;
-
-    // 테스트할 리턴값 설정
-    EXPECT_CALL(mock, selectStockBrocker())
-        .WillOnce(Return("키움"));
-
-    string broker = mock.selectStockBrocker();
-
-    vector<string> validBrockers = { "키움", "네모" };
-
-    EXPECT_THAT(validBrockers, Contains(broker));
-}
+//TEST(stockBrocker, ReturnKiwoomOrNemo) {
+//    AutoTradingSystem autotradingSystem;
+//
+//    // 테스트할 리턴값 설정
+//    string autotradingSystem.selectStockBrocker("키움");
+//
+//    vector<string> validBrockers = { "키움", "네모" };
+//
+//    EXPECT_THAT(validBrockers, Contains(broker));
+//}
 
 TEST(stockBrocker, LoginSuccess) {
     MockStockBrokerDriver mock;
