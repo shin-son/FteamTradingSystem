@@ -15,6 +15,7 @@ public:
 	int getPrice(const string& stockCode);
 
 	bool SellNiceTiming(const std::string stockCode, int quantity);
+	bool isNiceSellTiming(std::vector<int> prices, const std::string stockCode);
 
 private:
 	static const int WRONG_PRICE = -1;

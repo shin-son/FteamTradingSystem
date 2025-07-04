@@ -52,19 +52,24 @@ int AutoTradingSystem::getPrice(const std::string& stockCode)
 bool AutoTradingSystem::SellNiceTiming(const std::string stockCode,
                                        int quantity) {
 	bool result = false;
-	std::vector<int> prices;
+	std::vector<int> prices = {0, 0, 0};
 	if (stockCode == "") return result;
 
-	for (int i = 0; i < 3; ++i) {
-		prices.push_back(getPrice(stockCode));
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	}
-
-	if (prices[0] > prices[1] && prices[1] > prices[2]) {
+	if (isNiceSellTiming(prices, stockCode)){
 		int currentPrice = prices[2];
 		if (quantity > 0) {
 			result = sell(stockCode, currentPrice, quantity);
 		}
 	}
 	return result;
+}
+
+bool AutoTradingSystem::isNiceSellTiming(std::vector<int> prices, const std::string stockCode) {
+	for (int i = 0; i < 3; ++i) {
+		prices.push_back(getPrice(stockCode));
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	}
+
+	if (prices[0] > prices[1] && prices[1] > prices[2]) return true;
+	return false;
 }
