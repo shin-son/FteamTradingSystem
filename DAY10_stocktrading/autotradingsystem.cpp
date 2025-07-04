@@ -1,5 +1,9 @@
 #pragma once
 #include "autotradingsystem.h"
+#include <thread>
+#include <chrono>
+#include <vector>
+#include <algorithm>
 
 void AutoTradingSystem::selectStockBrocker(const string& brockerName)
 {
@@ -68,4 +72,33 @@ bool AutoTradingSystem::isNiceBuyTiming(const std::string& stockCode)
 	}
 
 	return true;
+}
+
+bool AutoTradingSystem::SellNiceTiming(const std::string stockCode, int quantity) {
+	bool result = false;
+	std::vector<int> prices;
+	int currentPrice;
+	if (stockCode == "") return result;
+
+	currentPrice = isNiceSellTiming(prices, stockCode);
+	if (currentPrice) {
+		if (quantity > 0) {
+			result = sell(stockCode, currentPrice, quantity);
+		}
+	}
+	return result;
+}
+
+int AutoTradingSystem::isNiceSellTiming(std::vector<int> prices, const std::string stockCode) {
+	int result = 0;
+	for (int i = 0; i < 3; ++i) {
+		prices.push_back(getPrice(stockCode));
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	}
+
+	if (prices[0] > prices[1] && prices[1] > prices[2]) {
+		result = prices[2];
+	}
+
+	return result;
 }

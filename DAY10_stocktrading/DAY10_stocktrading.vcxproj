@@ -139,8 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="autotradingsystem.h" />
+    <ClInclude Include="gmock_driver.h" />
     <ClInclude Include="kiwer_driver.h" />
-    <ClInclude Include="mock_driver.h" />
     <ClInclude Include="nemo_driver.h" />
     <ClInclude Include="stock_brocker_factory.h" />
     <ClInclude Include="stock_broker_driver_interface.h" />

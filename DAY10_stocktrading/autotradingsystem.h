@@ -10,10 +10,11 @@ public:
 	void selectStockBrocker(const string& brockerName);
 	void selectStockBrocker(StockBrokerDriverInterface* new_broker);
 	bool buy(const string& stockCode, int count, int price);
-    bool sell(const string& stockCode, int count, int price);
+	bool sell(const string& stockCode, int count, int price);
 	bool login(const std::string& id, const std::string& pass);
 	int getPrice(const string& stockCode);
 	bool buyNiceTiming(const string& stockCode, int price);
+	bool SellNiceTiming(const std::string stockCode, int quantity);
 
 private:
 	static const int WRONG_PRICE = -1;
@@ -23,4 +24,5 @@ private:
 
 	bool isInvalidIDorPASS(const std::string& id, const std::string& pass);
 	bool isNiceBuyTiming(const std::string& stockCode);
+	int isNiceSellTiming(std::vector<int> prices, const std::string stockCode);
 };
