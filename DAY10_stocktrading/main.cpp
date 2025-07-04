@@ -8,21 +8,44 @@
 
 using namespace testing;
 using namespace std;
-/*
-TEST(stockBrocker, ReturnKiwoomOrNemo) {
-    MockStockBrokerDriver mock;
 
-    // 테스트할 리턴값 설정
-    EXPECT_CALL(mock, selectStockBrocker())
-        .WillOnce(Return("키움"));
+TEST(stockBrocker, SelectKiwerBrocker) {
+    AutoTradingSystem autoTradingSystem;
 
-    string broker = mock.selectStockBrocker();
-
-    vector<string> validBrockers = { "키움", "네모" };
-
-    EXPECT_THAT(validBrockers, Contains(broker));
+    try {
+        autoTradingSystem.selectStockBrocker("키워");
+    }
+    catch (std::exception& e)
+    {
+        FAIL();
+    }
 }
-*/
+
+TEST(stockBrocker, SelectNemoBrocker) {
+    AutoTradingSystem autoTradingSystem;
+
+    try {
+        autoTradingSystem.selectStockBrocker("네모");
+    }
+    catch (std::exception& e)
+    {
+        FAIL();
+    }
+}
+
+TEST(stockBrocker, SelectInvalidBrocker) {
+    AutoTradingSystem autoTradingSystem;
+
+    try {
+        autoTradingSystem.selectStockBrocker("과거");
+        FAIL();
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
 TEST(stockBrocker, LoginSuccess) {
     AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
@@ -118,28 +141,38 @@ TEST(stockBrocker, SellFailure) {
 }
 
 TEST(stockBrocker, GetPriceReturnsCorrectValue) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 예: 삼성전자
     int expectedPrice = 71500;
 
     // mock이 해당 종목 코드에 대해 expectedPrice를 반환하도록 설정
     EXPECT_CALL(mock, getPrice(code))
+        .Times(1)
         .WillOnce(Return(expectedPrice));
 
-    EXPECT_EQ(mock.getPrice(code), expectedPrice);
+    int ret = ATS.getPrice(code);
+
+	EXPECT_EQ(ret, expectedPrice);
 }
 
 TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
 
     string code = "999999";  // 잘못된 종목
 
     // 잘못된 코드에 대해서는 -1 반환하도록 설정
     EXPECT_CALL(mock, getPrice(code))
+        .Times(1)
         .WillOnce(Return(-1));
 
-    EXPECT_EQ(mock.getPrice(code), -1);
+    int ret = ATS.getPrice(code);
+    
+	EXPECT_EQ(ret, -1);
 }
 
 int main() {
