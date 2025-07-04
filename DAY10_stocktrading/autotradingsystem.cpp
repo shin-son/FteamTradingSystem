@@ -11,7 +11,7 @@ void AutoTradingSystem::selectStockBrocker(StockBrokerDriverInterface* new_broke
 	brockerDriver = new_broker;
 }
 
-bool AutoTradingSystem::buy(std::string stockCode, int count, int price)
+bool AutoTradingSystem::buy(const string& stockCode, int count, int price)
 {
 	if (stockCode == "") return false;
 	if (count < 1) return false;
@@ -20,7 +20,7 @@ bool AutoTradingSystem::buy(std::string stockCode, int count, int price)
 	return brockerDriver->buy(stockCode, count, price);
 }
 
-bool AutoTradingSystem::sell(std::string stockCode, int count, int price)
+bool AutoTradingSystem::sell(const string& stockCode, int count, int price)
 {
 	if (stockCode == "") return false;
 	if (count < 1) return false;
@@ -43,4 +43,29 @@ int AutoTradingSystem::getPrice(const std::string& stockCode)
 {
 	if (stockCode == "") return WRONG_PRICE;
 	return brockerDriver->getPrice(stockCode);
+}
+
+bool AutoTradingSystem::buyNiceTiming(const std::string& stockCode, int price)
+{
+	if (stockCode == "") return false;
+	if (price < 1) return false;
+	if (isNiceBuyTiming(stockCode) == false) return false;
+
+	return brockerDriver->buy(stockCode, price, MAXIMUM_QUANTITY);
+}
+
+bool AutoTradingSystem::isNiceBuyTiming(const std::string& stockCode)
+{
+	std::vector<int> priceList;
+
+	for (int count = 0; count < NICE_TIMING_COUNT; count++) {
+		priceList.push_back(brockerDriver->getPrice(stockCode));
+		Sleep(100);
+	}
+
+	for (int count = 0; count < NICE_TIMING_COUNT - 1; count++) {
+		if (priceList[count] >= priceList[count + 1]) return false;					
+	}
+
+	return true;
 }
