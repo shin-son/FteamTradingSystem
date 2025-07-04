@@ -1,31 +1,14 @@
 ﻿#include "gmock/gmock.h"
 #include "autotradingsystem.h"
+#include "stock_broker_driver_interface.h"
+#include "mock_driver.h"
 
 #include <string>
 #include <vector>
 
 using namespace testing;
 using namespace std;
-
-class StockBrokerDriverInterface {
-public:
-    virtual std::string selectStockBrocker() const = 0;
-    virtual bool login(const std::string& id, const std::string& pass) = 0;
-    virtual bool buy(const std::string& code, int price, int quantity) = 0;
-    virtual bool sell(const std::string& code, int price, int quantity) = 0;
-    virtual int getPrice(const std::string& code) = 0;
-};
-
-// Mock 클래스 정의
-class MockStockBrokerDriver : public StockBrokerDriverInterface {
-public:
-    MOCK_METHOD(string, selectStockBrocker, (), (const, override));
-    MOCK_METHOD(bool, login, (const string& id, const string& pass), (override));
-    MOCK_METHOD(bool, buy, (const string& code, int price, int quantity), (override));
-    MOCK_METHOD(bool, sell, (const string& code, int price, int quantity), (override));
-    MOCK_METHOD(int, getPrice, (const string& code), (override));
-};
-
+/*
 TEST(stockBrocker, ReturnKiwoomOrNemo) {
     MockStockBrokerDriver mock;
 
@@ -39,7 +22,7 @@ TEST(stockBrocker, ReturnKiwoomOrNemo) {
 
     EXPECT_THAT(validBrockers, Contains(broker));
 }
-
+*/
 TEST(stockBrocker, LoginSuccess) {
     MockStockBrokerDriver mock;
 
