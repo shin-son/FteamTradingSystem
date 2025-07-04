@@ -9,6 +9,14 @@
 using namespace testing;
 using namespace std;
 
+class stockBrockerFixture : public Test {
+public:
+
+private:
+
+
+};
+
 TEST(stockBrocker, SelectKiwerBrocker) {
     AutoTradingSystem autoTradingSystem;
 
@@ -173,6 +181,61 @@ TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
     int ret = ATS.getPrice(code);
     
 	EXPECT_EQ(ret, -1);
+}
+
+TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 300000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(70000));
+
+    EXPECT_CALL(mock, buy(code, 70000, 4)).Times(1)
+        .WillOnce(Return(true));
+    
+    //ATS.buyNiceTiming(code, cash);
+}
+
+TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 300000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(68000));
+
+    EXPECT_CALL(mock, buy(_, _, _)).Times(0);
+
+    //ATS.buyNiceTiming(code, cash);
+}
+
+TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    ATS.selectStockBrocker(&mock);
+
+    string code = "005930";
+    int cash = 260000;
+
+    EXPECT_CALL(mock, getPrice(code)).Times(3)
+        .WillOnce(Return(68000))
+        .WillOnce(Return(69000))
+        .WillOnce(Return(68000));
+
+    EXPECT_CALL(mock, buy(_, _, _)).Times(0);
+
+    //ATS.buyNiceTiming(code, cash);
 }
 
 int main() {
