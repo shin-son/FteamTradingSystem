@@ -1,28 +1,49 @@
-#include "gmock/gmock.h"
+Ôªø#include "gmock/gmock.h"
 #include "autotradingsystem.h"
 
 #include <string>
+#include <vector>
 
 using namespace testing;
 using namespace std;
 
-class AutoTradingSystem {
+class StockBrokerDriverInterface {
 public:
-    std::string selectStockBrocker();                     // ¡ı±«ªÁ º±≈√
+    virtual ~StockBrokerDriverInterface() = default;
+    virtual std::string selectStockBrocker() const = 0;
+    virtual std::string getBrokerName() const = 0;
+    virtual bool login(const std::string& id, const std::string& pass) = 0;
+    virtual bool buy(const std::string& code, int price, int quantity) = 0;
+    virtual bool sell(const std::string& code, int price, int quantity) = 0;
+    virtual int getPrice(const std::string& code) = 0;
+};
+
+// Mock ÌÅ¥ÎûòÏä§ Ï†ïÏùò
+class MockStockBrokerDriver : public StockBrokerDriverInterface {
+public:
+    MOCK_METHOD(string, selectStockBrocker, (), (const, override));
+    MOCK_METHOD(string, getBrokerName, (), (const, override));
+    MOCK_METHOD(bool, login, (const string& id, const string& pass), (override));
+    MOCK_METHOD(bool, buy, (const string& code, int price, int quantity), (override));
+    MOCK_METHOD(bool, sell, (const string& code, int price, int quantity), (override));
+    MOCK_METHOD(int, getPrice, (const string& code), (override));
 };
 
 TEST(stockBrocker, ReturnKiwoomOrNemo) {
-    AutoTradingSystem ats;
-    string broker = ats.selectStockBrocker();
+    MockStockBrokerDriver mock;
 
-    // º±≈√ ∞°¥…«— ¡ı±«ªÁ ∏ÆΩ∫∆Æ
-    vector<string> validBrockers = { "≈∞øÚ", "≥◊∏" };
+    // ÌÖåÏä§Ìä∏Ìï† Î¶¨ÌÑ¥Í∞í ÏÑ§Ï†ï
+    EXPECT_CALL(mock, selectStockBrocker())
+        .WillOnce(Return("ÌÇ§ÏõÄ"));
 
-    // ∏Æ≈œµ» ∞™¿Ã ¿Ø»ø«— ¡ı±«ªÁ¿Œ¡ˆ »Æ¿Œ
+    string broker = mock.selectStockBrocker();
+
+    vector<string> validBrockers = { "ÌÇ§ÏõÄ", "ÎÑ§Î™®" };
+
     EXPECT_THAT(validBrockers, Contains(broker));
 }
 
 int main() {
-	::testing::InitGoogleMock();
-	return RUN_ALL_TESTS();
+    ::testing::InitGoogleMock();
+    return RUN_ALL_TESTS();
 }
