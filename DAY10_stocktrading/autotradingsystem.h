@@ -7,8 +7,11 @@ using std::string;
 class AutoTradingSystem
 {
 public:
-	void selectStockBrocker(string brokerName);
+	void selectStockBrocker(const string& brockerName);
+	void selectStockBrocker(StockBrokerDriverInterface* new_broker);
+	bool buy(std::string stockCode, int count, int price);
 
 private:
-	std::unique_ptr<StockBrokerDriverInterface> brockerDriver;
+	//std::unique_ptr<StockBrokerDriverInterface> brockerDriver;
+	StockBrokerDriverInterface* brockerDriver;
 };

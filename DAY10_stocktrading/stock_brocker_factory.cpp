@@ -1,14 +1,14 @@
 #include "stock_brocker_factory.h"
 
-std::unique_ptr<StockBrokerDriverInterface> stockBrockerFactory::getInstance(const string& brockerName)
+StockBrokerDriverInterface* stockBrockerFactory::getInstance(const string& brockerName)
 {
 	if ("키워" == brockerName)
 	{
-		return std::make_unique<KiwerDriver>();
+		return new KiwerDriver();
 	}
 	else if ("네모" == brockerName)
 	{
-		return std::make_unique<NemoDriver>();
+		return new NemoDriver();
 	}
 	else
 	{
