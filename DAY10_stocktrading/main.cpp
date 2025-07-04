@@ -254,7 +254,7 @@ TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
 
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(1);
 
-    //ATS.SellNiceTiming(code, last_price, quantity);
+    EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
 TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
@@ -273,7 +273,7 @@ TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
 
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(0);
 
-    //ATS.SellNiceTiming(code, last_price, quantity);
+    EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
 TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
@@ -292,7 +292,7 @@ TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
 
     EXPECT_CALL(mock, sell(code, last_price, 5)).Times(0);
 
-    //ATS.SellNiceTiming(code, last_price, quantity);
+    EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
 int main() {

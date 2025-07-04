@@ -14,6 +14,8 @@ public:
 	bool login(const std::string& id, const std::string& pass);
 	int getPrice(const string& stockCode);
 
+	bool SellNiceTiming(const std::string stockCode, int quantity);
+
 private:
 	static const int WRONG_PRICE = -1;
 	StockBrokerDriverInterface* brockerDriver;
