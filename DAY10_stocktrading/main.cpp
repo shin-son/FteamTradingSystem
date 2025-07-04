@@ -11,15 +11,15 @@ using namespace std;
 
 class stockBrockerFixture : public Test {
 public:
-
+    AutoTradingSystem ATS;
+    MockStockBrokerDriver mock;
+    AutoTradingSystem autoTradingSystem;
 private:
 
 
 };
 
-TEST(stockBrocker, SelectKiwerBrocker) {
-    AutoTradingSystem autoTradingSystem;
-
+TEST_F(stockBrockerFixture, SelectKiwerBrocker) {
     try {
         autoTradingSystem.selectStockBrocker("키워");
     }
@@ -29,9 +29,7 @@ TEST(stockBrocker, SelectKiwerBrocker) {
     }
 }
 
-TEST(stockBrocker, SelectNemoBrocker) {
-    AutoTradingSystem autoTradingSystem;
-
+TEST_F(stockBrockerFixture, SelectNemoBrocker) {
     try {
         autoTradingSystem.selectStockBrocker("네모");
     }
@@ -41,9 +39,7 @@ TEST(stockBrocker, SelectNemoBrocker) {
     }
 }
 
-TEST(stockBrocker, SelectInvalidBrocker) {
-    AutoTradingSystem autoTradingSystem;
-
+TEST_F(stockBrockerFixture, SelectInvalidBrocker) {
     try {
         autoTradingSystem.selectStockBrocker("과거");
         FAIL();
@@ -54,9 +50,8 @@ TEST(stockBrocker, SelectInvalidBrocker) {
     }
 }
 
-TEST(stockBrocker, LoginSuccess) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, LoginSuccess) {
+
     ATS.selectStockBrocker(&mock);
 
     string id = "myid";
@@ -69,9 +64,7 @@ TEST(stockBrocker, LoginSuccess) {
     EXPECT_EQ(ATS.login(id, pass), true);
 }
 
-TEST(stockBrocker, LoginFailure) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, LoginFailure) {
     ATS.selectStockBrocker(&mock);
 
     string id = "wrongid";
@@ -84,9 +77,7 @@ TEST(stockBrocker, LoginFailure) {
     EXPECT_EQ(ATS.login(id, pass), false);
 }
 
-TEST(stockBrocker, BuySuccess) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, BuySuccess) {
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 삼성전자
@@ -100,9 +91,8 @@ TEST(stockBrocker, BuySuccess) {
     EXPECT_EQ(true, ATS.buy(code, price, quantity));
 }
 
-TEST(stockBrocker, BuyFailure) {
-    AutoTradingSystem ATS;
-    NiceMock<MockStockBrokerDriver> mock;
+TEST_F(stockBrockerFixture, BuyFailure) {
+
     ATS.selectStockBrocker(&mock);
 
     string wrong_code = "000000";  // 잘못된 종목 코드
@@ -116,9 +106,8 @@ TEST(stockBrocker, BuyFailure) {
     EXPECT_EQ(false, ATS.buy(wrong_code, price, quantity));
 }
 
-TEST(stockBrocker, SellSuccess) {
-    AutoTradingSystem ATS;
-    NiceMock<MockStockBrokerDriver> mock;
+TEST_F(stockBrockerFixture, SellSuccess) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 예: 삼성전자
@@ -132,9 +121,8 @@ TEST(stockBrocker, SellSuccess) {
     EXPECT_TRUE(ATS.sell(code, price, quantity));
 }
 
-TEST(stockBrocker, SellFailure) {
-    AutoTradingSystem ATS;
-    NiceMock<MockStockBrokerDriver> mock;
+TEST_F(stockBrockerFixture, SellFailure) {
+
     ATS.selectStockBrocker(&mock);
 
     string wrong_code = "00000";  // 잘못된 종목
@@ -148,9 +136,8 @@ TEST(stockBrocker, SellFailure) {
     EXPECT_FALSE(ATS.sell(wrong_code, price, quantity));
 }
 
-TEST(stockBrocker, GetPriceReturnsCorrectValue) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, GetPriceReturnsCorrectValue) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";  // 예: 삼성전자
@@ -166,9 +153,8 @@ TEST(stockBrocker, GetPriceReturnsCorrectValue) {
 	EXPECT_EQ(ret, expectedPrice);
 }
 
-TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, GetPriceReturnsZeroForInvalidCode) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "999999";  // 잘못된 종목
@@ -183,9 +169,8 @@ TEST(stockBrocker, GetPriceReturnsZeroForInvalidCode) {
 	EXPECT_EQ(ret, -1);
 }
 
-TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, BuyNiceTimingShoudBuyWhenPriceIsRising) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -202,9 +187,8 @@ TEST(stockBrocker, BuyNiceTimingShoudBuyWhenPriceIsRising) {
     EXPECT_EQ(true, ATS.buyNiceTiming(code, cash));
 }
 
-TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -220,9 +204,8 @@ TEST(stockBrocker, BuyNiceTimingShoudNotBuyWhenAllPriceIsNotRising) {
     EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
 }
 
-TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -238,9 +221,8 @@ TEST(stockBrocker, BuyNiceTimingShouldNotBuyWhenCashTooLow) {
     EXPECT_EQ(false, ATS.buyNiceTiming(code, cash));
 }
 
-TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, SellNiceTimingShoudSellWhenPriceIsFalling) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -257,9 +239,8 @@ TEST(stockBrocker, SellNiceTimingShoudSellWhenPriceIsFalling) {
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
-TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, SellNiceTimingShoudNotSellWhenPriceIsRising) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
@@ -276,9 +257,8 @@ TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceIsRising) {
     EXPECT_FALSE(ATS.SellNiceTiming(code, quantity));
 }
 
-TEST(stockBrocker, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
-    AutoTradingSystem ATS;
-    MockStockBrokerDriver mock;
+TEST_F(stockBrockerFixture, SellNiceTimingShoudNotSellWhenPriceCheckFails) {
+
     ATS.selectStockBrocker(&mock);
 
     string code = "005930";
