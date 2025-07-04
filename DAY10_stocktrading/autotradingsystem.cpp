@@ -16,7 +16,7 @@ bool AutoTradingSystem::buy(std::string stockCode, int count, int price)
 
 int AutoTradingSystem::getPrice(const std::string &stockCode)
 {
-	if (stockCode == "") return -1;
+	if (stockCode == "") return WRONG_PRICE;
 	return broker->getPrice(stockCode);
 }
 

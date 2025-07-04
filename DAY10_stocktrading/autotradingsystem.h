@@ -12,5 +12,6 @@ public:
 	int getPrice(const string& stockCode);
 
 private:
+	static const int WRONG_PRICE = -1;
 	StockBrokerDriverInterface* broker;
 };
