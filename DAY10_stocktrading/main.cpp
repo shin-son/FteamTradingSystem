@@ -30,24 +30,24 @@ TEST(stockBrocker, LoginSuccess) {
     string pass = "mypass";
 
     // login 함수가 특정 인자에 대해 true를 반환하도록 설정
-    EXPECT_CALL(mock, login(id, pass))
+    EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(true));
 
-    // 실제 호출 및 검증
-    EXPECT_TRUE(mock.login(id, pass));
+    //ATS.login(id, pass);
 }
 
 TEST(stockBrocker, LoginFailure) {
+    AutoTradingSystem ATS;
     MockStockBrokerDriver mock;
 
     string id = "wrongid";
     string pass = "wrongpass";
 
     // 잘못된 아이디/비번으로 로그인 실패 리턴
-    EXPECT_CALL(mock, login(id, pass))
+    EXPECT_CALL(mock, login(id, pass)).Times(1)
         .WillOnce(Return(false));
 
-    EXPECT_FALSE(mock.login(id, pass));
+    //ATS.login(id, pass);
 }
 
 TEST(stockBrocker, BuySuccess) {
