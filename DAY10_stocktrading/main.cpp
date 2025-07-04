@@ -9,7 +9,6 @@ using namespace std;
 
 class StockBrokerDriverInterface {
 public:
-    virtual ~StockBrokerDriverInterface() = default;
     virtual std::string selectStockBrocker() const = 0;
     virtual std::string getBrokerName() const = 0;
     virtual bool login(const std::string& id, const std::string& pass) = 0;
